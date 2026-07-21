@@ -113,8 +113,8 @@ fbq('track', 'PageView');
     padding:14px 0;
   }
   header .container{display:flex;align-items:center;justify-content:center;}
-  header .logo-wrap{display:flex;align-items:center;height:52px;}
-  header img{height:100%;width:auto;max-width:200px;object-fit:contain;display:block;}
+  header .logo-wrap{display:flex;align-items:center;height:48px;}
+  header img{height:100%;width:auto;max-width:260px;object-fit:contain;display:block;}
 
   /* HERO */
   .hero{
@@ -323,7 +323,6 @@ fbq('track', 'PageView');
     .oferta-card{padding:26px 20px;}
     .precio-new{font-size:42px;}
     .garantia-box{flex-direction:column;text-align:center;}
-    header .logo-wrap{height:40px;}
   }
 </style>
 </head>
@@ -334,7 +333,7 @@ src="https://www.facebook.com/tr?id=1008754155465820&ev=PageView&noscript=1"
 
 <header>
   <div class="container">
-    <div class="logo-wrap"><img src="https://axondigital.site/wp-content/uploads/2026/07/LOGOTIPO-01.webp" alt="Bandana Studio" loading="eager" decoding="async"></div>
+    <div class="logo-wrap"><img src="https://axondigital.site/wp-content/uploads/2026/07/logotipo-recortado.webp" alt="Bandana Studio" width="235" height="48" loading="eager" decoding="async"></div>
   </div>
 </header>
 
@@ -634,7 +633,7 @@ src="https://www.facebook.com/tr?id=1008754155465820&ev=PageView&noscript=1"
     });
   });
 
-  // Fecha de la oferta: siempre muestra "hoy + 1 día", se actualiza sola en cada visita.
+  // Fecha de la oferta: siempre muestra "hoy + 2 días", se actualiza sola cada vez que alguien visita la página.
   (function(){
     var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
     var fecha = new Date();
@@ -645,7 +644,8 @@ src="https://www.facebook.com/tr?id=1008754155465820&ev=PageView&noscript=1"
   })();
 
   // Timer evergreen: cada visitante vê su propio cronómetro de 5 horas desde que entra a la página.
-  var COUNTDOWN_DURATION_MS = 5 * 60 * 60 * 1000;
+  // Se guarda en localStorage para que no se reinicie si la persona recarga la página.
+  var COUNTDOWN_DURATION_MS = 5 * 60 * 60 * 1000; // 5 horas
   var STORAGE_KEY = 'bandana_offer_deadline';
   var offerDeadline;
   try {
@@ -672,6 +672,7 @@ src="https://www.facebook.com/tr?id=1008754155465820&ev=PageView&noscript=1"
     document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
     if(diff <= 0 && cdInterval){ clearInterval(cdInterval); cdInterval = null; }
   }
+
   if(cdInterval){ clearInterval(cdInterval); }
   updateCountdown();
   cdInterval = setInterval(updateCountdown, 1000);
@@ -695,9 +696,9 @@ src="https://www.facebook.com/tr?id=1008754155465820&ev=PageView&noscript=1"
   // InitiateCheckout confiável: espera o pixel confirmar antes de navegar pro checkout.
   (function(){
     function trackAndGo(e){
-      var url = e.currentTarget.href;
       if(typeof fbq === 'function'){
         e.preventDefault();
+        var url = e.currentTarget.href;
         fbq('track', 'InitiateCheckout');
         setTimeout(function(){ window.location.href = url; }, 250);
       }
